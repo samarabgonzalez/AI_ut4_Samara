@@ -1,34 +1,49 @@
+/**
+ * Clase principal que ejecuta un proceso iterativo
+ * de cálculo hasta que se alcanza un valor límite.
+ */
+
 public class Main {
-    /** * @param args the command line arguments
+
+    /**
+     * Método principal del programa.
+     *
+     * @param args argumentos de la línea de comandos
      */
-    public static void main(final String[] args) {
-        int contador = 0;
-        int variableInicial = 15;
-        int variableCalculada = 20;
-        int acumulador = 0;
-        extracted(variableInicial, acumulador);
+    public static void main(String[] args) {
+        int incrementoBase = 15;
+        int valorAcumulado = 0;
+
+        calcularAcumulado(incrementoBase, valorAcumulado);
     }
 
     /**
+     * Realiza cálculos iterativos sobre un acumulador
+     * hasta que su valor sea mayor o igual a 100.
      *
+     * @param incrementoBase valor usado para calcular el incremento
+     * @param valorAcumulado valor que se va acumulando en cada iteración
      */
-    private static void extracted(int variableInicial, int acumulador) {
-        int contador;
-        int variableCalculada;
+    private static void calcularAcumulado(int incrementoBase, int valorAcumulado) {
+        int resultadoTemporal;
+        int valorCalculado;
+
         do {
-            variableCalculada = 10 + variableInicial;
-            acumulador = acumulador + variableCalculada;
-            acumulador++;
-            if (acumulador < 10) {
-                contador = 15;
-                acumulador = acumulador - 1;
+            valorCalculado = 10 + incrementoBase;
+            valorAcumulado = valorAcumulado + valorCalculado;
+            valorAcumulado++;
+
+            if (valorAcumulado < 10) {
+                resultadoTemporal = 15;
+                valorAcumulado = valorAcumulado - 1;
             } else {
-                contador = 10;
-                acumulador = acumulador - 1;
+                resultadoTemporal = 10;
+                valorAcumulado = valorAcumulado - 1;
             }
-            int aux;
-            aux = acumulador;
-            contador = aux;
-        } while (acumulador < 100);
+
+            int auxiliar = valorAcumulado;
+            resultadoTemporal = auxiliar;
+
+        } while (valorAcumulado < 100);
     }
 }
