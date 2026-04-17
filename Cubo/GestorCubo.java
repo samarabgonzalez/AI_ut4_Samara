@@ -1,53 +1,85 @@
 package Cubo;
-
-import javax.swing.JOptionPane;
+import javax.swing.*;
+import java.util.ArrayList;
+import java.util.Collections;
 
 /**
- * Ofrece operaciones de apoyo para trabajar con colecciones de cubos.
+ * Clase que gestiona una lista de cubos.
  */
 public class GestorCubo {
 
-	/**
-	 * Crea un cubo solicitando su lado por JOptionPane.
-	 *
-	 * @param numero etiqueta del cubo para mostrar en el dialogo
-	 * @return cubo creado con el lado indicado por el usuario
-	 */
-	public Cubo crearCuboDesdeDialogo(int numero) {
-		Cubo cubo = new Cubo(0);
-		JOptionPane.showMessageDialog(
-				null,
-				"Introduce los datos del cubo " + numero + ".",
-				"Nuevo cubo",
-				JOptionPane.INFORMATION_MESSAGE
-		);
-		cubo.solicitarLadoPorJOptionPane();
-		return cubo;
+	private ArrayList<Cubo> cubos;
+
+	public GestorCubo () {
+		cubos = new ArrayList<>();
 	}
 
 	/**
-	 * Devuelve el indice del cubo con mayor volumen.
-	 *
-	 * @param cubos arreglo de cubos a evaluar
-	 * @return indice del cubo con mayor volumen
-	 * @throws IllegalArgumentException si el arreglo es nulo o vacio
+	 * Pide al usuario cuántos cubos crear y los añade a la lista.
 	 */
-	public int obtenerIndiceMayorVolumen(Cubo[] cubos) {
-		if (cubos == null || cubos.length == 0) {
-			throw new IllegalArgumentException("Debe existir al menos un cubo.");
+	public void inicializarYPoblarListaCubos() {
+		int cantidad = pedirCantidad();
+
+		for (int i = 0; i < cantidad; i++) {
+			cubos.add(new Cubo());
+		}
+	}
+
+	/**
+	 * Ordena los cubos por volumen.
+	 */
+	public void ordenarCubos() {
+		Collections.sort(cubos);
+	}
+
+	/**
+	 * Muestra los cubos por pantalla.
+	 */
+	public void mostrarCubos() {
+		String texto = "";
+
+		for (Cubo c : cubos) {
+			texto += c.toString() + "\n";
 		}
 
-		int indiceMayor = 0;
-		float mayorVolumen = cubos[0].calcularVolumen();
+		JOptionPane.showMessageDialog(null, texto);
+	}
 
-		for (int i = 1; i < cubos.length; i++) {
-			float volumenActual = cubos[i].calcularVolumen();
-			if (volumenActual > mayorVolumen) {
-				mayorVolumen = volumenActual;
-				indiceMayor = i;
+	/**
+	 * Comprueba si un cubo cabe dentro de otro.
+	 */
+	public boolean cabeDentro(Cubo c1, Cubo c2) {
+		return c1.getLado() <= c2.getLado();
+	}
+
+	/**
+	 * Pide al usuario cuántos cubos crear.
+	 */
+	private int pedirCantidad() {
+		int cantidad = 0;
+		boolean valido = false;
+
+		while (!valido) {
+			try {
+				String texto = JOptionPane.showInputDialog("¿Cuántos cubos quieres crear?");
+
+				if (texto == null) {
+					System.exit(0);
+				}
+
+				cantidad = Integer.parseInt(texto);
+
+				if (cantidad <= 0) {
+					JOptionPane.showMessageDialog(null, "Debe ser mayor que 0");
+				} else {
+					valido = true;
+				}
+
+			} catch (NumberFormatException e) {
+				JOptionPane.showMessageDialog(null, "Error: introduce un número válido");
 			}
 		}
 
-		return indiceMayor;
+		return cantidad;
 	}
 }
