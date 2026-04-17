@@ -1,104 +1,121 @@
 package Cubo;
 
+import javax.swing.JOptionPane;
+
 /**
- * La clase Cubo representa un cubo con atributos de área, lado y volumen. Proporciona métodos para calcular el área de la base y el volumen del cubo, así como getters y setters para sus atributos.
+ * Representa un cubo definido por la longitud de su lado.
+ *
+ * <p>La clase incluye metodos para calcular area de base y volumen,
+ * solicitar el lado por interfaz grafica y mostrar resultados con JOptionPane.</p>
  */
-
 public class Cubo {
-    private float area;
     private float lado;
-    private float volumen;
 
     /**
-     * Constructor del cubo que recibe el area, el lado y el volumen del cubo
-     * @param area
-     * @param lado
-     * @param volumen
+     * Crea un cubo con el lado indicado.
+     *
+     * @param lado longitud del lado del cubo (debe ser mayor o igual que 0)
+     * @throws IllegalArgumentException si el lado es negativo
      */
-    public Cubo(float area, float lado, float volumen) {
-        this.area = area;
-        this.lado = lado;
-        this.volumen = volumen;
+    public Cubo(float lado) {
+        setLado(lado);
     }
 
     /**
-     * El método recibe uno de los lados del cubo
-     * @param lado
-     * @return El área de la base del cubo, que es un cuadrado con lados iguales al lado del cubo.
-     */
-
-    public float calcularAreaBase(float lado) {
-        return lado * lado;
-    }
-
-    /**
-     * El método recibe uno de los lados del cubo
-     * @param lado
-     * @return El volumen del cubo, que es lado al cubo.
-     */
-
-    public float calcularVolumen(float lado) {
-        return lado * lado * lado;
-    }
-
-    /**
-     * Getter del área
-     * @return
-     */
-    public float getArea() {
-        return area;
-    }
-
-    /**
-     * Setter del área
-     * @param area
-     */
-    public void setArea(float area) {
-        this.area = area;
-    }
-
-    /**
-     * Getter del lado
-     * @return
+     * Devuelve la longitud actual del lado.
+     *
+     * @return lado del cubo
      */
     public float getLado() {
         return lado;
     }
 
     /**
-     * Setter del lado
-     * @param lado
+     * Actualiza la longitud del lado.
+     *
+     * @param lado nuevo lado (debe ser mayor o igual que 0)
+     * @throws IllegalArgumentException si el lado es negativo
      */
     public void setLado(float lado) {
+        if (lado < 0) {
+            throw new IllegalArgumentException("El lado no puede ser negativo.");
+        }
         this.lado = lado;
     }
 
     /**
-     * Getter del volumen
-     * @return
+     * Calcula el area de la base del cubo.
+     *
+     * @return area de la base (lado * lado)
      */
-    public float getVolumen() {
-        return volumen;
+    public float calcularAreaBase() {
+        return lado * lado;
     }
 
     /**
-     * Setter del volumen
-     * @param volumen
+     * Calcula el volumen del cubo.
+     *
+     * @return volumen (lado * lado * lado)
      */
-    public void setVolumen(float volumen) {
-        this.volumen = volumen;
+    public float calcularVolumen() {
+        return lado * lado * lado;
     }
 
     /**
-     * Método para imprimir
-     * @return
+     * Solicita el valor del lado al usuario mediante JOptionPane.
+     *
+     * <p>Si el usuario cancela la entrada, se mantiene el valor actual.
+     * Si introduce un valor invalido, se muestra un mensaje y se vuelve a pedir.</p>
      */
-    @Override
-    public String toString() {
-        return "Cubo{" +
-                "area=" + area +
-                ", lado=" + lado +
-                ", volumen=" + volumen +
-                '}';
+    public void solicitarLadoPorJOptionPane() {
+        while (true) {
+            String entrada = JOptionPane.showInputDialog(
+                    null,
+                    "Introduce el lado del cubo:",
+                    "Dato de entrada",
+                    JOptionPane.QUESTION_MESSAGE
+            );
+
+            if (entrada == null) {
+                return;
+            }
+
+            try {
+                float nuevoLado = Float.parseFloat(entrada);
+                setLado(nuevoLado);
+                return;
+            } catch (IllegalArgumentException ex) {
+                JOptionPane.showMessageDialog(
+                        null,
+                        "Entrada no valida. Introduce un numero mayor o igual que 0.",
+                        "Error",
+                        JOptionPane.ERROR_MESSAGE
+                );
+            }
+        }
+    }
+
+    /**
+     * Muestra el area de la base con JOptionPane.
+     */
+    public void imprimirAreaPorJOptionPane() {
+        JOptionPane.showMessageDialog(
+                null,
+                String.format("Area de la base del cubo (lado %.2f): %.2f", lado, calcularAreaBase()),
+                "Area del cubo",
+                JOptionPane.INFORMATION_MESSAGE
+        );
+    }
+
+    /**
+     * Muestra el volumen con JOptionPane.
+     */
+    public void imprimirVolumenPorJOptionPane() {
+        JOptionPane.showMessageDialog(
+                null,
+                String.format("Volumen del cubo (lado %.2f): %.2f", lado, calcularVolumen()),
+                "Volumen del cubo",
+                JOptionPane.INFORMATION_MESSAGE
+        );
     }
 }
