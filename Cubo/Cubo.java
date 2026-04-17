@@ -1,5 +1,9 @@
 package Cubo;
 
+/**
+ * La clase Cubo representa un cubo con atributos de área, lado y volumen. Proporciona métodos para calcular el área de la base y el volumen del cubo, así como getters y setters para sus atributos.
+ */
+
 public class Cubo {
     private float area;
     private float lado;
