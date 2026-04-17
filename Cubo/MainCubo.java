@@ -7,7 +7,7 @@ import javax.swing.*;
 public class MainCubo {
 
 	public static void main(String[] args) {
-
+		// Inicializamos el gestor de cubos
 		GestorCubo gestor = new GestorCubo();
 
 		gestor.inicializarYPoblarListaCubos();
